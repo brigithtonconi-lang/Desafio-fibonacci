@@ -1,48 +1,111 @@
-// Seleccionamos el botón de cálculo de nuestra interfaz HTML
-let boton = document.getElementById("btnCalcular");
-
-// Le indicamos al programa qué debe ejecutar al hacer clic
-boton.onclick = function() {
+// Función principal que se ejecuta al hacer clic en el botón
+function procesarClaves() {
+    // Uso obligatorio y exclusivo de getElementById
+    let inputCantidad = document.getElementById("cantidad");
+    let divResultado = document.getElementById("resultado");
+    let divErrores = document.getElementById("mensajes-error");
     
-    // 1. Capturamos el horizonte temporal (número de meses) ingresado
-    let inputMeses = document.getElementById("meses").value;
-    let cantidadMeses = parseInt(inputMeses);
-    let areaResultado = document.getElementById("resultado");
+    let cantidad = parseInt(inputCantidad.value);
 
-    // Validación: verificamos que el dato ingresado sea un número mayor a 0
-    if (isNaN(cantidadMeses) || cantidadMeses <= 0) {
-        areaResultado.innerHTML = "<p style='color: #800020; font-weight: bold;'>Por favor, ingrese un horizonte temporal válido (mayor a 0).</p>";
-        return; // Detenemos la ejecución si hay error
+    // Limpiar errores previos
+    divErrores.innerHTML = "";
+
+    // Validación de datos de entrada
+    if (isNaN(cantidad) || cantidad <= 0) {
+        divErrores.innerHTML = "<div class='alerta error'>Error: Por favor, ingrese un número entero mayor a 0.</div>";
+        divResultado.innerHTML = "<p class='placeholder-text'>Esperando datos válidos...</p>";
+        return;
     }
 
-    // 2. Variables para la serie de Fibonacci sin usar vectores
+    if (cantidad > 100) {
+        divErrores.innerHTML = "<div class='alerta advertencia'>Advertencia: Se limitó a 100 para evitar sobrecarga del navegador.</div>";
+        cantidad = 100;
+    }
+
+    // Variables simples para Fibonacci (Sin usar vectores)
     let a = 0;
     let b = 1;
     let c;
-    
-    // Variables para nuestra proyección de acumulación de capital
-    let ahorroTotal = 0;
-    let desgloseHTML = "<ul>";
 
-    // 3. Ciclo iterativo para proyectar los depósitos mes a mes
-    for (let i = 1; i <= cantidadMeses; i++) {
-        // Lógica de recurrencia (Fibonacci)
+    // Construcción de la tabla de resultados
+    let tablaHtml = `
+        <table class="tabla-resultados">
+            <thead>
+                <tr>
+                    <th>Nivel</th>
+                    <th>Código Generado (Fibonacci)</th>
+                    <th>Divisores Encontrados</th>
+                    <th>Estado de Seguridad (Primo)</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    // Ciclo para procesar la cantidad solicitada
+    for (let i = 1; i <= cantidad; i++) {
+        
+        // --- INICIO ALGORITMO DE NÚMEROS PRIMOS ---
+        let contador = 0;
+        
+        // El 0 y el 1 no son primos por definición matemática, empezamos desde números mayores a 1
+        if (a > 1) {
+            for (let j = 1; j <= a; j++) {
+                if (a % j === 0) {
+                    contador++;
+                }
+            }
+        }
+
+        // --- EVALUACIÓN Y RENDERIZADO ---
+        let estadoSeguridad = "";
+        let claseFila = "";
+
+        if (contador === 2) {
+            estadoSeguridad = "<span class='badge seguro'>CLAVE SEGURA (Es Primo)</span>";
+            claseFila = "fila-segura";
+        } else {
+            estadoSeguridad = "<span class='badge inseguro'>VULNERABLE (No Primo)</span>";
+            claseFila = "fila-insegura";
+        }
+
+        // Casos especiales para 0 y 1
+        if (a === 0 || a === 1) {
+            estadoSeguridad = "<span class='badge neutro'>NO APLICABLE</span>";
+            contador = "N/A";
+            claseFila = "";
+        }
+
+        // Agregar fila a la tabla
+        tablaHtml += `
+            <tr class="${claseFila}">
+                <td>${i}</td>
+                <td class="codigo-destacado">${a}</td>
+                <td>${contador}</td>
+                <td>${estadoSeguridad}</td>
+            </tr>
+        `;
+
+        // --- AVANCE DEL ALGORITMO DE FIBONACCI ---
         c = a + b;
         a = b;
         b = c;
-        
-        // Sumamos el depósito de este mes al capital total
-        ahorroTotal = ahorroTotal + a; 
-        
-        // Estructuramos el resultado visual para este periodo
-        desgloseHTML = desgloseHTML + "<li>Mes " + i + ": Depósito de Bs. " + a + "</li>";
     }
 
-    desgloseHTML = desgloseHTML + "</ul>";
-    
-    // Agregamos el balance final resaltado
-    desgloseHTML = desgloseHTML + "<p style='margin-top: 15px; font-size: 1.1em; color: #800020;'><strong>Capital Total Acumulado: Bs. " + ahorroTotal + "</strong></p>";
+    tablaHtml += `
+            </tbody>
+        </table>
+        <div class="resumen">
+            <p>Se han procesado <strong>${cantidad}</strong> secuencias correctamente.</p>
+        </div>
+    `;
 
-    // 4. Imprimimos la proyección resultante directamente en la página web
-    areaResultado.innerHTML = desgloseHTML;
-};
+    // Mostrar los resultados en la página
+    divResultado.innerHTML = tablaHtml;
+}
+
+// Función adicional para limpiar el formulario y los resultados
+function limpiarPantalla() {
+    document.getElementById("cantidad").value = "";
+    document.getElementById("mensajes-error").innerHTML = "";
+    document.getElementById("resultado").innerHTML = "<p class='placeholder-text'>Los códigos generados y su análisis de seguridad aparecerán aquí...</p>";
+}
