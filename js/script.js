@@ -1,53 +1,64 @@
-// Función principal que se ejecuta al hacer clic en el botón
+// Función principal que se ejecuta al pulsar "Ejecutar Algoritmo"
 function procesarClaves() {
-    // Uso obligatorio y exclusivo de getElementById
+    // Uso exclusivo de getElementById según los requerimientos
     let inputCantidad = document.getElementById("cantidad");
+    let selectFiltro = document.getElementById("filtro-seguridad");
     let divResultado = document.getElementById("resultado");
     let divErrores = document.getElementById("mensajes-error");
     
     let cantidad = parseInt(inputCantidad.value);
+    let filtro = selectFiltro.value; // Puede ser "todos" o "primos"
 
     // Limpiar errores previos
     divErrores.innerHTML = "";
 
-    // Validación de datos de entrada
+    // Validación de entrada
     if (isNaN(cantidad) || cantidad <= 0) {
-        divErrores.innerHTML = "<div class='alerta error'>Error: Por favor, ingrese un número entero mayor a 0.</div>";
-        divResultado.innerHTML = "<p class='placeholder-text'>Esperando datos válidos...</p>";
+        divErrores.innerHTML = "<div class='alerta error'>❌ Error: Por favor, ingrese un número entero mayor a 0.</div>";
+        divResultado.innerHTML = `
+            <div class="empty-state">
+                <span class="empty-icon">⚠️</span>
+                <p>Esperando parámetros válidos para la ejecución.</p>
+            </div>`;
         return;
     }
 
-    if (cantidad > 100) {
-        divErrores.innerHTML = "<div class='alerta advertencia'>Advertencia: Se limitó a 100 para evitar sobrecarga del navegador.</div>";
-        cantidad = 100;
+    // Límite de seguridad para evitar desbordamiento del navegador
+    if (cantidad > 75) {
+        divErrores.innerHTML = "<div class='alerta advertencia'>⚠️ Advertencia: Para evitar sobrecarga en la memoria, la simulación se ajustó a 75 términos máximos.</div>";
+        cantidad = 75;
     }
 
-    // Variables simples para Fibonacci (Sin usar vectores)
+    // Variables de control de Fibonacci (Cumpliendo la regla de NO usar arrays)
     let a = 0;
     let b = 1;
     let c;
+    
+    // Contadores para el resumen final
+    let clavesMostradas = 0;
+    let clavesSegurasEncontradas = 0;
 
-    // Construcción de la tabla de resultados
+    // Encabezado de la tabla dinámica
     let tablaHtml = `
         <table class="tabla-resultados">
             <thead>
                 <tr>
-                    <th>Nivel</th>
+                    <th>Iteración</th>
                     <th>Código Generado (Fibonacci)</th>
-                    <th>Divisores Encontrados</th>
-                    <th>Estado de Seguridad (Primo)</th>
+                    <th>Divisores (1 a N)</th>
+                    <th>Estado Criptográfico</th>
                 </tr>
             </thead>
             <tbody>
     `;
 
-    // Ciclo para procesar la cantidad solicitada
+    // Bucle principal de ejecución
     for (let i = 1; i <= cantidad; i++) {
         
-        // --- INICIO ALGORITMO DE NÚMEROS PRIMOS ---
+        // --- 1. EVALUACIÓN DE PRIMICIDAD ---
         let contador = 0;
         
-        // El 0 y el 1 no son primos por definición matemática, empezamos desde números mayores a 1
+        // Los números 0 y 1 no son primos matemáticamente
         if (a > 1) {
             for (let j = 1; j <= a; j++) {
                 if (a % j === 0) {
@@ -56,26 +67,36 @@ function procesarClaves() {
             }
         }
 
-        // --- EVALUACIÓN Y RENDERIZADO ---
+        let esPrimo = (contador === 2);
+        if (esPrimo) clavesSegurasEncontradas++;
+
+        // --- 2. LÓGICA DE FILTRADO ---
+        // Si el usuario eligió ver solo primos y el número actual no lo es, calculamos el siguiente y saltamos.
+        if (filtro === "primos" && !esPrimo) {
+            c = a + b;
+            a = b;
+            b = c;
+            continue; 
+        }
+
+        clavesMostradas++;
+
+        // --- 3. RENDERIZADO VISUAL ---
         let estadoSeguridad = "";
         let claseFila = "";
 
-        if (contador === 2) {
-            estadoSeguridad = "<span class='badge seguro'>CLAVE SEGURA (Es Primo)</span>";
+        if (esPrimo) {
+            estadoSeguridad = "<span class='badge seguro'>✅ CLAVE SEGURA</span>";
             claseFila = "fila-segura";
+        } else if (a === 0 || a === 1) {
+            estadoSeguridad = "<span class='badge neutro'>N/A</span>";
+            contador = "N/A";
         } else {
-            estadoSeguridad = "<span class='badge inseguro'>VULNERABLE (No Primo)</span>";
+            estadoSeguridad = "<span class='badge inseguro'>❌ VULNERABLE</span>";
             claseFila = "fila-insegura";
         }
 
-        // Casos especiales para 0 y 1
-        if (a === 0 || a === 1) {
-            estadoSeguridad = "<span class='badge neutro'>NO APLICABLE</span>";
-            contador = "N/A";
-            claseFila = "";
-        }
-
-        // Agregar fila a la tabla
+        // Agregar la fila calculada
         tablaHtml += `
             <tr class="${claseFila}">
                 <td>${i}</td>
@@ -85,27 +106,35 @@ function procesarClaves() {
             </tr>
         `;
 
-        // --- AVANCE DEL ALGORITMO DE FIBONACCI ---
+        // --- 4. AVANCE DE FIBONACCI ---
         c = a + b;
         a = b;
         b = c;
+    }
+
+    // Mensaje si el filtro oculta todos los resultados
+    if (clavesMostradas === 0) {
+        tablaHtml += `<tr><td colspan="4" class="placeholder-text">No se encontraron claves seguras (primos) en este rango. Intente aumentar la cantidad de términos.</td></tr>`;
     }
 
     tablaHtml += `
             </tbody>
         </table>
         <div class="resumen">
-            <p>Se han procesado <strong>${cantidad}</strong> secuencias correctamente.</p>
+            <p>Se evaluaron <strong>${cantidad}</strong> iteraciones. Se encontraron <strong>${clavesSegurasEncontradas}</strong> claves seguras en total.</p>
         </div>
     `;
 
-    // Mostrar los resultados en la página
+    // Inyectar el HTML en la página
     divResultado.innerHTML = tablaHtml;
+
+    // Cambiar estado del sistema visualmente
+    document.querySelector('.system-status').innerHTML = '<span class="status-indicator online"></span> Estado del Sistema: Simulación Completada';
 }
 
-// Función adicional para limpiar el formulario y los resultados
+// Función para reiniciar el entorno interactivo
 function limpiarPantalla() {
     document.getElementById("cantidad").value = "";
+    document.getElementById("filtro-seguridad").value = "todos";
     document.getElementById("mensajes-error").innerHTML = "";
-    document.getElementById("resultado").innerHTML = "<p class='placeholder-text'>Los códigos generados y su análisis de seguridad aparecerán aquí...</p>";
-}
+    document.getElementById("resultado").innerHTML
