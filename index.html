@@ -3,114 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desafío Web: Planificación de Ahorro con Fibonacci</title>
+    <title>Sistema de Seguridad: Fibonacci y Números Primos</title>
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-
     <header>
-        <div class="header-container">
-            <h1>Desafío Web: Matemáticas Aplicadas al Mundo Real</h1>
-            <h2>Modelación de Planes de Ahorro mediante la Sucesión de Fibonacci</h2>
-            <div class="datos-estudiante">
-                <p><strong>Estudiante:</strong> [Carola Tonconi]</p>
-                <p><strong>Fecha:</strong> Mayo 2026</p>
-            </div>
+        <div class="header-content">
+            <h1>Sistema Avanzado de Generación de Claves</h1>
+            <p><strong>Desafío Web:</strong> Fibonacci y Números Primos combinados en Seguridad Informática</p>
+            <p><em>Desarrollado por: [Tu Nombre o Grupo]</em></p>
         </div>
     </header>
 
     <main>
-
-        <section class="tarjeta-informativa">
-            <h3>1. Contexto y Justificación del Problema</h3>
-            <p>
-                En el ámbito financiero, el ahorro tradicional suele estructurarse mediante depósitos de suma fija. Sin embargo, este enfoque lineal no siempre se adapta a las capacidades dinámicas de acumulación o a los objetivos de crecimiento escalonado.
-            </p>
-            <p>
-                Este proyecto aborda el problema de la **planificación del ahorro progresivo**[cite: 49]. Proponemos un modelo no lineal basado en la secuencia de Fibonacci para estructurar depósitos mensuales crecientes[cite: 50]. Esto permite simular una curva de acumulación acelerada, ideal para metas financieras que requieren un esfuerzo incremental en el tiempo.
-            </p>
+        <section id="contexto">
+            <h2>1. Contexto del Problema: Criptografía y Seguridad</h2>
+            <p>En el mundo real, la seguridad de la información digital depende de algoritmos matemáticos complejos. Este proyecto simula un generador de claves de seguridad de dos niveles:</p>
+            <ul>
+                <li><strong>Primer Nivel (La Secuencia):</strong> Utiliza el crecimiento exponencial de la serie de Fibonacci para generar códigos base impredecibles y de rápido crecimiento.</li>
+                <li><strong>Segundo Nivel (La Validación):</strong> Evalúa cada código generado para determinar si es un número primo. En criptografía, los números primos son fundamentales porque sus únicas factorizaciones son 1 y ellos mismos, lo que los hace ideales para encriptación.</li>
+            </ul>
         </section>
 
-        <section class="tarjeta-informativa">
-            <h3>2. Fundamento Matemático y Lógica del Algoritmo</h3>
-            <p>
-                La sucesión de Fibonacci es una secuencia matemática infinita donde cada término se calcula sumando los dos valores inmediatamente anteriores[cite: 67, 75]. La relación matemática fundamental se define como:
-            </p>
-            <div class="formula">
-                <code>F(t) = F(t-1) + F(t-2)</code>
-            </p>
-            <p>
-                En nuestra aplicación, el algoritmo toma el número de meses ingresado por el usuario y ejecuta un ciclo iterativo (bucle <code>for</code>) para calcular el monto exacto correspondiente a cada periodo sin necesidad de almacenar vectores complejos[cite: 67, 73].
-            </p>
-        </section>
-
-        <section class="tarjeta-informativa">
-            <h3>3. Simulación de Referencia (Ejemplo del Modelo)</h3>
-            <p>A continuación se muestra cómo se estructuran los depósitos durante los primeros 6 meses siguiendo la secuencia matemática[cite: 65]:</p>
-            <table class="tabla-guia">
-                <thead>
-                    <tr>
-                        <th>Mes de Planificación</th>
-                        <th>Monto del Depósito (Bs.)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Mes 1</td><td>Bs. 1</td></tr>
-                    <tr><td>Mes 2</td><td>Bs. 1</td></tr>
-                    <tr><td>Mes 3</td><td>Bs. 2</td></tr>
-                    <tr><td>Mes 4</td><td>Bs. 3</td></tr>
-                    <tr><td>Mes 5</td><td>Bs. 5</td></tr>
-                    <tr><td>Mes 6</td><td>Bs. 8</td></tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section class="tarjeta-calculadora">
-            <h3>4. Simulador Interactivo de Proyecciones</h3>
-            <p>Defina el horizonte temporal de su plan financiero para proyectar la acumulación de capital:</p>
-            
-            <form id="formularioAhorro" onsubmit="return false;">
-                <div class="grupo-control">
-                    <label for="meses"><strong>Horizonte Temporal (en meses):</strong></label>
-                    <input type="number" id="meses" min="1" max="40" placeholder="Ej. 12" required>
-                    <small>Se recomienda ingresar valores entre 1 y 30 meses para un análisis óptimo.</small>
+        <section id="algoritmo">
+            <h2>2. Explicación de los Algoritmos</h2>
+            <p>El sistema se apoya en dos lógicas fundamentales sin el uso de arrays, optimizando la memoria:</p>
+            <div class="algoritmo-grid">
+                <div class="card">
+                    <h3>Algoritmo de Fibonacci</h3>
+                    <p>Comienza con los valores 0 y 1. Mediante un ciclo repetitivo, el siguiente valor siempre es la suma de los dos anteriores, almacenándose en variables temporales.</p>
                 </div>
-                
-                <button type="button" id="btnCalcular">Generar Proyección Financiera</button>
-            </form>
-        </section>
-
-        <section class="tarjeta-resultado">
-            <h3>5. Reporte del Plan de Ahorro Generado</h3>
-            <div id="resultado" class="panel-salida">
-                <p class="placeholder-texto">Esperando parámetros de entrada para procesar la serie temporal...</p>
+                <div class="card">
+                    <h3>Algoritmo de Números Primos</h3>
+                    <p>Toma el código generado por Fibonacci y mediante un ciclo cuenta cuántos divisores exactos tiene. Si el contador es exactamente igual a 2, el número es primo.</p>
+                </div>
             </div>
         </section>
 
-        <section class="tarjeta-informativa">
-            <h3>6. Conclusión Analítica</h3>
-            <p>
-                La aplicación de patrones matemáticos como la serie de Fibonacci a problemas económicos de la vida real demuestra que las estructuras de crecimiento natural pueden optimizar la planificación financiera[cite: 9, 11]. 
-            </p>
-            <p>
-                Este modelo incremental ayuda a romper la monotonía del ahorro lineal, promoviendo una disciplina financiera adaptativa donde el ahorrador incrementa su compromiso conforme avanza el tiempo, logrando una acumulación final robusta respaldada por la consistencia del algoritmo.
-            </p>
+        <section id="interaccion">
+            <h2>3. Panel de Generación de Claves</h2>
+            <p>Ingrese la cantidad de secuencias que desea procesar. El sistema generará los códigos y los validará automáticamente.</p>
+            
+            <!-- Uso obligatorio de formularios -->
+            <form id="formulario-claves" onsubmit="return false;">
+                <div class="form-group">
+                    <label for="cantidad">Número de términos a generar (Ej. 10):</label>
+                    <input type="number" id="cantidad" min="1" max="100" placeholder="Ingrese un número mayor a 0">
+                </div>
+                <div class="botones-group">
+                    <button type="button" id="btn-ejecutar" onclick="procesarClaves()">Generar y Validar Códigos</button>
+                    <button type="button" id="btn-limpiar" onclick="limpiarPantalla()" class="btn-secundario">Limpiar Resultados</button>
+                </div>
+            </form>
         </section>
 
+        <section id="resultados-section">
+            <h2>4. Resultados de la Validación</h2>
+            <!-- Los resultados se muestran exclusivamente en la página -->
+            <div id="mensajes-error"></div>
+            <div id="resultado">
+                <p class="placeholder-text">Los códigos generados y su análisis de seguridad aparecerán aquí...</p>
+            </div>
+        </section>
     </main>
 
     <footer>
-        <div class="enlaces-proyecto">
-            <h3>Entregables del Proyecto</h3>
-            <p>
-                <a href="https://github.com/" target="_blank" rel="noopener noreferrer">📂 Repositorio Oficial en GitHub</a>
-                <span class="separador">|</span>
-                <a href="https://pages.github.com/" target="_blank" rel="noopener noreferrer">🌐 Aplicación Web Publicada</a>
-            </p>
-            <p class="copyright">&copy; 2026 - Todos los derechos reservados. Desarrollado con propósitos académicos.</p>
+        <div class="footer-content">
+            <h3>Enlaces del Proyecto</h3>
+            <p>A continuación se presentan los enlaces solicitados para la evaluación del desafío:</p>
+            <div class="enlaces-grid">
+                <a href="#" target="_blank" class="enlace-btn">Repositorio en GitHub</a>
+                <a href="#" target="_blank" class="enlace-btn">Página Publicada (Netlify/Vercel)</a>
+            </div>
+            <p class="copyright">&copy; 2025 - Desafío Matemáticas que resuelven problemas.</p>
         </div>
     </footer>
-    <script src="js/script.js"></script>
 
+    <script src="js/script.js"></script>
 </body>
 </html>
