@@ -16,7 +16,6 @@
             <ul class="nav-links">
                 <li><a href="#dashboard" class="active">Panel Principal</a></li>
                 <li><a href="#marco-teorico">Fundamentos Matemáticos</a></li>
-                <li><a href="#documentacion">Especificación Técnica</a></li>
             </ul>
         </div>
     </nav>
@@ -34,7 +33,6 @@
     </header>
 
     <main class="dashboard-container">
-
         <section id="dashboard" class="metrics-grid">
             <div class="metric-card">
                 <div class="metric-icon success">∑</div>
@@ -60,7 +58,6 @@
         </section>
 
         <div class="layout-split">
-            
             <aside class="panel-control">
                 <div class="panel-header">
                     <h2>⚙️ Consola de Configuración</h2>
@@ -74,14 +71,14 @@
                         <div class="input-block">
                             <label for="cantidad">Cantidad de términos secuenciales:</label>
                             <input type="number" id="cantidad" min="1" max="75" placeholder="Ej. 15" required>
-                            <small class="helper-text">Rango óptimo para análisis de desbordamiento de memoria: 1 - 75 términos.</small>
+                            <small class="helper-text">Rango óptimo para análisis de memoria: 1 - 75 términos.</small>
                         </div>
 
                         <div class="input-block">
                             <label for="filtro-seguridad">Nivel de tolerancia estricta:</label>
                             <select id="filtro-seguridad">
-                                <option value="todos">Mostrar secuencia completa con marcado de seguridad</option>
-                                <option value="primos">Filtrar exclusivamente Claves Primas (Alta Seguridad)</option>
+                                <option value="todos">Mostrar secuencia completa</option>
+                                <option value="primos">Filtrar exclusivamente Claves Primas</option>
                             </select>
                         </div>
                     </fieldset>
@@ -102,38 +99,33 @@
             </aside>
 
             <section id="contexto-problema" class="panel-info">
-                <h2>1. Contexto General y Aplicación en el Mundo Real</h2>
-                <p>En el ecosistema de la seguridad informática y la criptografía de clave pública (como los sistemas RSA), la generación de códigos robustos e impredecibles es el pilar fundamental para proteger datos sensibles.</p>
+                <h2>1. Contexto General y Aplicación</h2>
+                <p>En el ecosistema de la seguridad informática, la generación de códigos robustos e impredecibles es el pilar fundamental para proteger datos sensibles.</p>
                 
                 <article class="use-case">
                     <h3>¿Por qué combinar Fibonacci y Números Primos?</h3>
-                    <p>La <strong>Sucesión de Fibonacci</strong> modela comportamientos de crecimiento exponencial y patrones estructurales recurrentes. Al someter estos términos a un análisis de divisores para hallar <strong>Números Primos</strong>, logramos filtrar valores matemáticamente excepcionales.</p>
-                    <p>Un número primo no puede factorizarse de forma simple, lo que incrementa la complejidad informática ante ataques de fuerza bruta, convirtiendo cada coincidencia en una <strong>Clave de Alta Seguridad</strong>.</p>
+                    <p>La <strong>Sucesión de Fibonacci</strong> modela comportamientos de crecimiento. Al someter estos términos a un análisis para hallar <strong>Números Primos</strong>, logramos filtrar valores excepcionales.</p>
+                    <p>Un número primo no puede factorizarse de forma simple, lo que incrementa la complejidad informática ante ataques de fuerza bruta.</p>
                 </article>
                 
                 <div class="alert-box note">
-                    <strong>Aplicación práctica:</strong> Este simulador automatiza el filtrado, identificando códigos dinámicos que cumplen con los dos estándares matemáticos simultáneamente.
+                    <strong>Aplicación práctica:</strong> Este simulador automatiza el filtrado, identificando códigos dinámicos seguros.
                 </div>
             </section>
         </div>
 
         <section id="marco-teorico" class="theoretical-framework">
             <h2>2. Arquitectura de los Algoritmos Aplicados</h2>
-            <p>A continuación se expone la lógica computacional que gobierna la ejecución interna de la consola en JavaScript:</p>
-
             <div class="code-explainer-grid">
                 <div class="explainer-card">
-                    <h3>Estructura de Fibonacci (Eficiencia Temporal)</h3>
-                    <p>Para evitar la saturación de memoria por recursividad o el uso innecesario de vectores, se implementa una lógica lineal utilizando tres variables de control simples:</p>
-                    <pre><code>let a = 0, b = 1, c;
-// El valor actual 'a' se actualiza sumando 'a + b' en un ciclo cerrado</code></pre>
+                    <h3>Estructura de Fibonacci</h3>
+                    <pre><code>let a = 0n, b = 1n, c;
+// Uso de BigInt (n) para evitar desbordamiento</code></pre>
                 </div>
-
                 <div class="explainer-card">
-                    <h3>Prueba de Primicidad Determinista</h3>
-                    <p>Cada número procesado es evaluado por un ciclo for modular que contabiliza sus divisores exactos en el intervalo <code>[1, n]</code>:</p>
-                    <pre><code>if (numero % i === 0) contador++;
-// Si al finalizar el conteo, la variable acumula exactamente 2 divisores, es primo.</code></pre>
+                    <h3>Prueba de Primicidad</h3>
+                    <pre><code>// Verificación de divisibilidad matemática
+// Optimizada para rendimiento en JS</code></pre>
                 </div>
             </div>
         </section>
@@ -149,43 +141,16 @@
             <div id="resultado" class="table-wrapper">
                 <div class="empty-state">
                     <span class="empty-icon">📊</span>
-                    <p>Consola vacía. Ingrese una cantidad de términos en el panel de control izquierdo y pulse "Ejecutar Algoritmo" para desplegar la matriz de claves.</p>
+                    <p>Consola vacía. Ingrese una cantidad de términos en el panel izquierdo y ejecute el algoritmo.</p>
                 </div>
             </div>
-
-            <div class="conclusion-block">
-                <h3>Conclusión del Análisis</h3>
-                <p>La automatización de pruebas matemáticas mediante JavaScript permite evaluar grandes volúmenes de datos de forma inmediata. Al cruzar secuencias logarítmicas con filtros de primicidad, se consolida una metodología eficiente para el diseño teórico de claves criptográficas seguras, demostrando que las estructuras abstractas resuelven fallas críticas de protección perimetral en la vida real.</p>
-            </div>
         </section>
-
     </main>
 
     <footer class="main-footer">
         <div class="footer-content">
-            <h3>Entregables e Indicadores del Repositorio</h3>
-            <p>Haga clic en los módulos de control externos para auditar el código fuente o verificar el despliegue de producción:</p>
-            
-            <div class="footer-links-grid">
-                <a href="https://github.com/tu-usuario/desafio-fibonacci-primos" target="_blank" class="footer-card-link">
-                    <span class="link-icon">📁</span>
-                    <div class="link-text">
-                        <h4>Repositorio Oficial Git</h4>
-                        <p>Ver código organizado en GitHub</p>
-                    </div>
-                </a>
-                <a href="https://tu-usuario.github.io/desafio-fibonacci-primos" target="_blank" class="footer-card-link live">
-                    <span class="link-icon">🌐</span>
-                    <div class="link-text">
-                        <h4>Página Web Publicada</h4>
-                        <p>Acceder al entorno de producción en vivo</p>
-                    </div>
-                </a>
-            </div>
-            
             <div class="footer-bottom">
                 <p>&copy; 2026 Universidad Mayor de San Andrés - Carrera de Economía - Informática Aplicada.</p>
-                <p>Cumplimiento estricto de requerimientos técnicos del Desafío Web.</p>
             </div>
         </div>
     </footer>
